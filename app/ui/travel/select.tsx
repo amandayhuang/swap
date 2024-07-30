@@ -1,14 +1,18 @@
-import { fetchExchangeRates } from "@/app/lib/data";
+"use client";
 
-export const Select = async ({
+import { ExchangeRate } from "@/app/lib/definitions";
+
+export const Select = ({
   defaultValue,
   disabled,
+  rates,
+  onSetCurrency,
 }: {
   defaultValue: string;
   disabled: boolean;
+  rates: ExchangeRate[];
+  onSetCurrency: (val: string) => void;
 }) => {
-  const rates = await fetchExchangeRates();
-
   return (
     <div className="rounded-md bg-gray-50 p-4 md:p-6">
       {/* Customer Name */}
@@ -23,6 +27,7 @@ export const Select = async ({
             className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
             defaultValue={defaultValue}
             disabled={disabled}
+            onChange={(e) => onSetCurrency(e.target.value)}
           >
             <option value="" disabled>
               Select a currency
