@@ -28,7 +28,19 @@ export const Form = ({ rates }: Props) => {
   const [currency, setCurrency] = useState("");
   const [input, setInput] = useState("");
   const rate = rates.find((val) => val.currency === currency);
-  console.log("rate", rate);
+  const inputFormatted = input
+    ? `${parseFloat(input).toLocaleString("en-US", {
+        style: "currency",
+        currency,
+      })}`
+    : "";
+  const outputFormatted =
+    input && rate
+      ? `${(parseFloat(input) / rate.rate).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        })} USD`
+      : "";
 
   const handleSetCurrency = (curr: string) => {
     setCurrency(curr);
@@ -64,6 +76,9 @@ export const Form = ({ rates }: Props) => {
           , brought to you by Vercel.
         </p> */}
         <div className="flex flex-col items-center">
+          <div>{`$1 = ${Math.round(
+            rate?.rate || 0
+          )} ${currency} as of ${rate?.dt_created.toDateString()}`}</div>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
@@ -86,8 +101,8 @@ export const Form = ({ rates }: Props) => {
             onSetCurrency={handleSetCurrency}
             rates={rates}
           />
-          <div>=</div>
-          <div className="relative mt-2 rounded-md">
+          <div>{`${inputFormatted} = ${outputFormatted}`}</div>
+          {/* <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
                 id="amount"
@@ -101,13 +116,13 @@ export const Form = ({ rates }: Props) => {
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
-          </div>
-          <Select
+          </div> */}
+          {/* <Select
             defaultValue={"USD"}
             disabled={true}
             onSetCurrency={handleSetCurrency}
             rates={rates}
-          />
+          /> */}
         </div>
         {/* <Link
             href="/login"
