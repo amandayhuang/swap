@@ -10,6 +10,13 @@ import Image from "next/image";
 import { Select } from "../../ui/travel/select";
 // import { fetchExchangeRates } from "./lib/data";
 import { ExchangeRate } from "@/app/lib/definitions";
+import {
+  CheckIcon,
+  ClockIcon,
+  CurrencyDollarIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
+import { formatCurrency } from "@/app/lib/utils";
 
 type Props = {
   rates: ExchangeRate[];
@@ -17,12 +24,30 @@ type Props = {
 
 export const Form = ({ rates }: Props) => {
   const DEFAULT_CURRENCY = "JPY";
-  const [currency, setCurrency] = useState(DEFAULT_CURRENCY);
-  console.log("CURR", currency);
+
+  const [currency, setCurrency] = useState("");
+  const [input, setInput] = useState("");
+  const rate = rates.find((val) => val.currency === currency);
+  console.log("rate", rate);
 
   const handleSetCurrency = (curr: string) => {
     setCurrency(curr);
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("last_currency");
+      if (saved) {
+        setCurrency(saved);
+      } else {
+        setCurrency(DEFAULT_CURRENCY);
+      }
+    }
+  }, []);
+
+  if (!currency) {
+    return <></>;
+  }
 
   return (
     <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
@@ -39,13 +64,44 @@ export const Form = ({ rates }: Props) => {
           , brought to you by Vercel.
         </p> */}
         <div className="flex flex-col items-center">
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="amount"
+                name="amount"
+                type="number"
+                step="1"
+                placeholder={`Enter ${currency} amount`}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                width="260"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
           <Select
-            defaultValue={DEFAULT_CURRENCY}
+            defaultValue={currency}
             disabled={false}
             onSetCurrency={handleSetCurrency}
             rates={rates}
           />
-          <div>to</div>
+          <div>=</div>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="amount"
+                name="amount"
+                type="number"
+                step="1"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                disabled
+                width="260"
+                value={rate && input ? parseFloat(input) / rate?.rate : ""}
+              />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
           <Select
             defaultValue={"USD"}
             disabled={true}

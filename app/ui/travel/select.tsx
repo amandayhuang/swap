@@ -20,7 +20,7 @@ export const Select = ({
         {/* {!disabled && <label htmlFor="customer" className="mb-2 block text-sm font-medium">
           Select currency
         </label>} */}
-        <div className="relative">
+        <div className="relative" style={{ width: 260 }}>
           <select
             id="customer"
             name="customerId"
