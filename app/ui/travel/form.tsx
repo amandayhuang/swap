@@ -1,25 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AcmeLogo from "@/app/ui/acme-logo";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
-import styles from "@/app/ui/home.module.css";
-import { lusitana } from "../../ui/fonts";
-import Image from "next/image";
 import { Select } from "../../ui/travel/select";
-// import { fetchExchangeRates } from "./lib/data";
 import { ExchangeRate } from "@/app/lib/definitions";
-import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
-  UserCircleIcon,
-} from "@heroicons/react/24/outline";
+import { BanknotesIcon } from "@heroicons/react/24/outline";
 import { EmergencyNumbers } from "./emergency-numbers";
 
 type Props = {
   rates: ExchangeRate[];
+};
+
+const formatCurrency = (
+  maxDigits: number,
+  amount: string,
+  currency: string,
+  rate: number | undefined
+) => {
+  if (rate) {
+    // should convert and return
+    return amount
+      ? `${(parseFloat(amount) / rate).toLocaleString("en-US", {
+          style: "currency",
+          currency,
+          minimumFractionDigits: 2,
+          maximumFractionDigits: maxDigits,
+        })}`
+      : "";
+  } else if (amount) {
+    // should just format
+    return `${parseFloat(amount).toLocaleString("en-US", {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  }
+
+  return "";
 };
 
 export const Form = ({ rates }: Props) => {
@@ -28,19 +45,8 @@ export const Form = ({ rates }: Props) => {
   const [currency, setCurrency] = useState("");
   const [input, setInput] = useState("");
   const rate = rates.find((val) => val.currency === currency);
-  const inputFormatted = input
-    ? `${parseFloat(input).toLocaleString("en-US", {
-        style: "currency",
-        currency,
-      })}`
-    : "";
-  const outputFormatted =
-    input && rate
-      ? `${(parseFloat(input) / rate.rate).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        })} USD`
-      : "";
+  const inputFormatted = formatCurrency(2, input, currency, undefined);
+  const outputFormatted = formatCurrency(2, input, "USD", rate?.rate);
 
   const handleSetCurrency = (curr: string) => {
     setCurrency(curr);
@@ -67,21 +73,18 @@ export const Form = ({ rates }: Props) => {
 
   return (
     <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-      <div className="text-sm text-gray-500">{`$1 = ${Math.round(
-        rate?.rate || 0
-      )} ${currency} as of ${rate?.dt_created.toDateString()}`}</div>
+      <div className="text-sm text-gray-500">{`${formatCurrency(
+        2,
+        "1",
+        "USD",
+        undefined
+      )} = ${formatCurrency(
+        4,
+        "1",
+        currency,
+        rate?.rate
+      )} as of ${rate?.dt_created.toDateString()}`}</div>
       <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-        {/* <div className={styles.shape} />
-        <p
-          className={`text-xl text-gray-800 md:text-3xl md:leading-normal ${lusitana.className} antialiased`}
-        >
-          {" "}
-          <strong>Welcome to Acme.</strong> This is the example for the{" "}
-          <a href="https://nextjs.org/learn/" className="text-blue-500">
-            Next.js Learn Course
-          </a>
-          , brought to you by Vercel.
-        </p> */}
         <div className="flex flex-col items-center">
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -115,7 +118,7 @@ export const Form = ({ rates }: Props) => {
                   </svg>
                 </button>
               )}
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <BanknotesIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
           <Select
@@ -124,7 +127,9 @@ export const Form = ({ rates }: Props) => {
             onSetCurrency={handleSetCurrency}
             rates={rates}
           />
-          {input && <div>{`${inputFormatted} = ${outputFormatted}`}</div>}
+          {input && (
+            <div className="bg-green-400 text-white font-bold font-lg p-4 rounded-lg">{`${inputFormatted} = ${outputFormatted}`}</div>
+          )}
         </div>
         {/* <Link
             href="/login"
