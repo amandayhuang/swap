@@ -94,4 +94,5 @@ export type ExchangeRate = {
   rate: number;
   dt_created: Date;
   name: string;
+  area_name: string;
 };

@@ -1,0 +1,77 @@
+export const emergency: Record<string, any[]> = {
+  EUR: [{ number: "112", description: "General emergency" }],
+  USD: [{ number: "911", description: "General emergency" }],
+  JPY: [
+    { number: "110", description: "Police" },
+    { number: "119", description: "Fire/Ambulance" },
+  ],
+  BGN: [{ number: "112", description: "General emergency" }],
+  CZK: [{ number: "112", description: "General emergency" }],
+  DKK: [{ number: "112", description: "General emergency" }],
+  GBP: [
+    { number: "999", description: "General emergency" },
+    { number: "112", description: "General emergency (alternative)" },
+  ],
+  HUF: [{ number: "112", description: "General emergency" }],
+  PLN: [{ number: "112", description: "General emergency" }],
+  RON: [{ number: "112", description: "General emergency" }],
+  SEK: [{ number: "112", description: "General emergency" }],
+  CHF: [
+    { number: "117", description: "Police" },
+    { number: "118", description: "Fire" },
+    { number: "144", description: "Ambulance" },
+  ],
+  ISK: [{ number: "112", description: "General emergency" }],
+  NOK: [{ number: "112", description: "General emergency" }],
+  HRK: [{ number: "112", description: "General emergency" }],
+  RUB: [{ number: "112", description: "General emergency" }],
+  TRY: [{ number: "112", description: "General emergency" }],
+  AUD: [
+    { number: "000", description: "General emergency" },
+    { number: "112", description: "General emergency (mobile)" },
+  ],
+  BRL: [
+    { number: "190", description: "Police" },
+    { number: "193", description: "Fire" },
+    { number: "192", description: "Ambulance" },
+  ],
+  CAD: [{ number: "911", description: "General emergency" }],
+  CNY: [
+    { number: "110", description: "Police" },
+    { number: "119", description: "Fire" },
+    { number: "120", description: "Ambulance" },
+  ],
+  HKD: [{ number: "999", description: "General emergency" }],
+  IDR: [
+    { number: "110", description: "Police" },
+    { number: "113", description: "Fire" },
+    { number: "118", description: "Ambulance" },
+  ],
+  ILS: [
+    { number: "100", description: "Police" },
+    { number: "101", description: "Ambulance" },
+    { number: "102", description: "Fire" },
+  ],
+  INR: [{ number: "112", description: "General emergency" }],
+  KRW: [{ number: "112", description: "General emergency" }],
+  MXN: [{ number: "911", description: "General emergency" }],
+  MYR: [{ number: "999", description: "General emergency" }],
+  NZD: [{ number: "111", description: "General emergency" }],
+  PHP: [
+    { number: "911", description: "General emergency" },
+    { number: "117", description: "General emergency (alternative)" },
+  ],
+  SGD: [
+    { number: "999", description: "Police" },
+    { number: "995", description: "Fire/Ambulance" },
+  ],
+  THB: [
+    { number: "191", description: "Police" },
+    { number: "1669", description: "Ambulance" },
+    { number: "199", description: "Fire" },
+  ],
+  ZAR: [
+    { number: "10111", description: "Police" },
+    { number: "10177", description: "Ambulance" },
+  ],
+};

@@ -16,6 +16,7 @@ import {
   CurrencyDollarIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
+import { EmergencyNumbers } from "./emergency-numbers";
 
 type Props = {
   rates: ExchangeRate[];
@@ -43,6 +44,10 @@ export const Form = ({ rates }: Props) => {
 
   const handleSetCurrency = (curr: string) => {
     setCurrency(curr);
+  };
+
+  const handleClear = () => {
+    setInput("");
   };
 
   useEffect(() => {
@@ -87,10 +92,29 @@ export const Form = ({ rates }: Props) => {
                 step="1"
                 placeholder={`Enter ${currency} amount`}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                width="260"
-                value={inputFormatted}
+                style={{ width: "260px" }}
+                value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
+              {input && (
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700"
+                  onClick={handleClear}
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              )}
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
@@ -100,28 +124,7 @@ export const Form = ({ rates }: Props) => {
             onSetCurrency={handleSetCurrency}
             rates={rates}
           />
-          <div>{`${inputFormatted} = ${outputFormatted}`}</div>
-          {/* <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="amount"
-                name="amount"
-                type="number"
-                step="1"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                disabled
-                width="260"
-                value={rate && input ? parseFloat(input) / rate?.rate : ""}
-              />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div> */}
-          {/* <Select
-            defaultValue={"USD"}
-            disabled={true}
-            onSetCurrency={handleSetCurrency}
-            rates={rates}
-          /> */}
+          {input && <div>{`${inputFormatted} = ${outputFormatted}`}</div>}
         </div>
         {/* <Link
             href="/login"
@@ -130,23 +133,8 @@ export const Form = ({ rates }: Props) => {
             <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link> */}
       </div>
-      <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-        {/* Add Hero Images Here */}
-        {/* <Image
-            src="/hero-desktop.png"
-            width={1000}
-            height={760}
-            className="hidden md:block"
-            alt="Screenshots of the dashboard project showing desktop version"
-          />
-          <Image
-            src="/hero-mobile.png"
-            width={560}
-            height={620}
-            className="block md:hidden"
-            alt="Screenshots of the dashboard project showing mobile version"
-          /> */}
-      </div>
+      {rate && <EmergencyNumbers rate={rate} />}
+      <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12"></div>
     </div>
   );
 };

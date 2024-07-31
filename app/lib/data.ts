@@ -226,7 +226,8 @@ export async function fetchExchangeRates() {
     er.base_currency,
     er.rate,
     er.dt_created,
-    c.name
+    c.name,
+    c.area_name
   FROM 
     exchange_rate er
   JOIN
