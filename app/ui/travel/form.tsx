@@ -8,6 +8,7 @@ import {
   ArrowsRightLeftIcon,
 } from "@heroicons/react/24/outline";
 import { EmergencyNumbers } from "./emergency-numbers";
+import { Button } from "../button";
 
 type Props = {
   rates: ExchangeRate[];
@@ -94,14 +95,14 @@ export const Form = ({ rates }: Props) => {
 
   const outputExampleFormatted = !isSwapped
     ? formatCurrency({
-        maxDigits: 2,
+        maxDigits: 4,
         amount: "1",
         currency: "USD",
         rate: rate?.rate,
         isSwapped,
       })
     : formatCurrency({
-        maxDigits: 2,
+        maxDigits: 4,
         amount: "1",
         currency,
         rate: rate?.rate,
@@ -109,14 +110,14 @@ export const Form = ({ rates }: Props) => {
       });
   const inputExampleFormatted = !isSwapped
     ? formatCurrency({
-        maxDigits: 2,
+        maxDigits: 4,
         amount: "1",
         currency,
         rate: undefined,
         isSwapped,
       })
     : formatCurrency({
-        maxDigits: 2,
+        maxDigits: 4,
         amount: "1",
         currency: "USD",
         rate: undefined,
@@ -125,6 +126,10 @@ export const Form = ({ rates }: Props) => {
 
   const handleSetCurrency = (curr: string) => {
     setCurrency(curr);
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("last_currency", curr);
+    }
   };
 
   const handleClear = () => {
@@ -154,23 +159,7 @@ export const Form = ({ rates }: Props) => {
   return (
     <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
       <div className="text-sm text-gray-500">{`${inputExampleFormatted} = ${outputExampleFormatted} as of ${rate?.dt_created.toDateString()}`}</div>
-
-      {/* {isSwapped && (
-        <div className="text-sm text-gray-500">{`${formatCurrency({
-          maxDigits: 4,
-          amount: "1",
-          currency: "USD",
-          rate: rate?.rate,
-          isSwapped,
-        })} = ${formatCurrency({
-          maxDigits: 2,
-          amount: "1",
-          currency,
-          rate: undefined,
-          isSwapped,
-        })} as of ${rate?.dt_created.toDateString()}`}</div>
-      )} */}
-      <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
+      <div className="flex flex-col justify-center gap-6 rounded-lg bg-white px-6 py-10 md:w-2/5 md:px-10">
         <div className="flex flex-col items-center">
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -213,13 +202,16 @@ export const Form = ({ rates }: Props) => {
             onSetCurrency={handleSetCurrency}
             rates={rates}
           />
-
-          <div className="flex flex-row bg-green-300 font-bold font-medium p-4 rounded-lg">
-            {`${inputFormatted} = ${outputFormatted}`}{" "}
-            <ArrowsRightLeftIcon
-              className="h-[25px] w-[25px] ml-2 cursor-pointer"
-              onClick={handleSwap}
-            />
+          <div className="flex flex-row items-center justify-center">
+            <div className=" bg-green-300 font-bold font-medium p-4 rounded-lg">
+              {`${inputFormatted} = ${outputFormatted}`}{" "}
+            </div>
+            <Button className={"ml-2"}>
+              <ArrowsRightLeftIcon
+                className="h-[25px] w-[25px]  cursor-pointer"
+                onClick={handleSwap}
+              />
+            </Button>
           </div>
         </div>
         {/* <Link
