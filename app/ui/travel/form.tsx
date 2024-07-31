@@ -3,25 +3,40 @@
 import { useEffect, useState } from "react";
 import { Select } from "../../ui/travel/select";
 import { ExchangeRate } from "@/app/lib/definitions";
-import { BanknotesIcon } from "@heroicons/react/24/outline";
+import {
+  BanknotesIcon,
+  ArrowsRightLeftIcon,
+} from "@heroicons/react/24/outline";
 import { EmergencyNumbers } from "./emergency-numbers";
 
 type Props = {
   rates: ExchangeRate[];
 };
 
-const formatCurrency = (
-  maxDigits: number,
-  amount: string,
-  currency: string,
-  rate: number | undefined
-) => {
+type Format = {
+  maxDigits: number;
+  amount: string;
+  currency: string;
+  rate: number | undefined;
+  isSwapped: boolean;
+};
+
+const formatCurrency = ({
+  maxDigits,
+  amount,
+  currency,
+  rate,
+  isSwapped,
+}: Format) => {
   if (rate) {
     // should convert and return
     return amount
-      ? `${(parseFloat(amount) / rate).toLocaleString("en-US", {
+      ? `${(isSwapped
+          ? parseFloat(amount) * rate
+          : parseFloat(amount) / rate
+        ).toLocaleString("en-US", {
           style: "currency",
-          currency,
+          currency: currency || "USD",
           minimumFractionDigits: 2,
           maximumFractionDigits: maxDigits,
         })}`
@@ -30,7 +45,7 @@ const formatCurrency = (
     // should just format
     return `${parseFloat(amount).toLocaleString("en-US", {
       style: "currency",
-      currency,
+      currency: currency || "USD",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })}`;
@@ -41,12 +56,72 @@ const formatCurrency = (
 
 export const Form = ({ rates }: Props) => {
   const DEFAULT_CURRENCY = "JPY";
+  const [isSwapped, setIsSwapped] = useState(false);
 
   const [currency, setCurrency] = useState("");
   const [input, setInput] = useState("");
   const rate = rates.find((val) => val.currency === currency);
-  const inputFormatted = formatCurrency(2, input, currency, undefined);
-  const outputFormatted = formatCurrency(2, input, "USD", rate?.rate);
+  const outputFormatted = !isSwapped
+    ? formatCurrency({
+        maxDigits: 2,
+        amount: input || "1",
+        currency: "USD",
+        rate: rate?.rate,
+        isSwapped,
+      })
+    : formatCurrency({
+        maxDigits: 2,
+        amount: input || "1",
+        currency,
+        rate: rate?.rate,
+        isSwapped,
+      });
+  const inputFormatted = !isSwapped
+    ? formatCurrency({
+        maxDigits: 2,
+        amount: input || "1",
+        currency,
+        rate: undefined,
+        isSwapped,
+      })
+    : formatCurrency({
+        maxDigits: 2,
+        amount: input || "1",
+        currency: "USD",
+        rate: undefined,
+        isSwapped,
+      });
+
+  const outputExampleFormatted = !isSwapped
+    ? formatCurrency({
+        maxDigits: 2,
+        amount: "1",
+        currency: "USD",
+        rate: rate?.rate,
+        isSwapped,
+      })
+    : formatCurrency({
+        maxDigits: 2,
+        amount: "1",
+        currency,
+        rate: rate?.rate,
+        isSwapped,
+      });
+  const inputExampleFormatted = !isSwapped
+    ? formatCurrency({
+        maxDigits: 2,
+        amount: "1",
+        currency,
+        rate: undefined,
+        isSwapped,
+      })
+    : formatCurrency({
+        maxDigits: 2,
+        amount: "1",
+        currency: "USD",
+        rate: undefined,
+        isSwapped,
+      });
 
   const handleSetCurrency = (curr: string) => {
     setCurrency(curr);
@@ -54,6 +129,11 @@ export const Form = ({ rates }: Props) => {
 
   const handleClear = () => {
     setInput("");
+  };
+
+  const handleSwap = () => {
+    setIsSwapped(!isSwapped);
+    handleClear();
   };
 
   useEffect(() => {
@@ -73,17 +153,23 @@ export const Form = ({ rates }: Props) => {
 
   return (
     <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-      <div className="text-sm text-gray-500">{`${formatCurrency(
-        2,
-        "1",
-        "USD",
-        undefined
-      )} = ${formatCurrency(
-        4,
-        "1",
-        currency,
-        rate?.rate
-      )} as of ${rate?.dt_created.toDateString()}`}</div>
+      <div className="text-sm text-gray-500">{`${inputExampleFormatted} = ${outputExampleFormatted} as of ${rate?.dt_created.toDateString()}`}</div>
+
+      {/* {isSwapped && (
+        <div className="text-sm text-gray-500">{`${formatCurrency({
+          maxDigits: 4,
+          amount: "1",
+          currency: "USD",
+          rate: rate?.rate,
+          isSwapped,
+        })} = ${formatCurrency({
+          maxDigits: 2,
+          amount: "1",
+          currency,
+          rate: undefined,
+          isSwapped,
+        })} as of ${rate?.dt_created.toDateString()}`}</div>
+      )} */}
       <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
         <div className="flex flex-col items-center">
           <div className="relative mt-2 rounded-md">
@@ -93,7 +179,7 @@ export const Form = ({ rates }: Props) => {
                 name="amount"
                 type="number"
                 step="1"
-                placeholder={`Enter ${currency} amount`}
+                placeholder={`Enter ${isSwapped ? "USD" : currency} amount`}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 style={{ width: "260px" }}
                 value={input}
@@ -127,9 +213,14 @@ export const Form = ({ rates }: Props) => {
             onSetCurrency={handleSetCurrency}
             rates={rates}
           />
-          {input && (
-            <div className="bg-green-400 text-white font-bold font-lg p-4 rounded-lg">{`${inputFormatted} = ${outputFormatted}`}</div>
-          )}
+
+          <div className="flex flex-row bg-green-300 font-bold font-medium p-4 rounded-lg">
+            {`${inputFormatted} = ${outputFormatted}`}{" "}
+            <ArrowsRightLeftIcon
+              className="h-[25px] w-[25px] ml-2 cursor-pointer"
+              onClick={handleSwap}
+            />
+          </div>
         </div>
         {/* <Link
             href="/login"
