@@ -16,7 +16,6 @@ import {
   CurrencyDollarIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import { formatCurrency } from "@/app/lib/utils";
 
 type Props = {
   rates: ExchangeRate[];
@@ -63,6 +62,9 @@ export const Form = ({ rates }: Props) => {
 
   return (
     <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
+      <div className="text-sm text-gray-500">{`$1 = ${Math.round(
+        rate?.rate || 0
+      )} ${currency} as of ${rate?.dt_created.toDateString()}`}</div>
       <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
         {/* <div className={styles.shape} />
         <p
@@ -76,9 +78,6 @@ export const Form = ({ rates }: Props) => {
           , brought to you by Vercel.
         </p> */}
         <div className="flex flex-col items-center">
-          <div>{`$1 = ${Math.round(
-            rate?.rate || 0
-          )} ${currency} as of ${rate?.dt_created.toDateString()}`}</div>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
@@ -89,7 +88,7 @@ export const Form = ({ rates }: Props) => {
                 placeholder={`Enter ${currency} amount`}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 width="260"
-                value={input}
+                value={inputFormatted}
                 onChange={(e) => setInput(e.target.value)}
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
