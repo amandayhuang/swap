@@ -204,7 +204,7 @@ export const Form = ({ rates }: Props) => {
                   type="number"
                   step="1"
                   placeholder={`Enter ${isSwapped ? "USD" : currency} amount`}
-                  className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                  className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-base outline-2 placeholder:text-gray-500"
                   style={{ width: "260px" }}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
