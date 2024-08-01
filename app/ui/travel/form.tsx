@@ -159,8 +159,6 @@ export const Form = ({ rates }: Props) => {
     return <></>;
   }
 
-  // const hello = phrases[currency][0].local;
-
   return (
     <main className="flex flex-col p-6">
       <div className="flex flex-row justify-between h-20 shrink-0 rounded-lg bg-blue-500 p-4 ">
