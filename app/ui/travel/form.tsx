@@ -242,11 +242,8 @@ export const Form = ({ rates }: Props) => {
               <div className=" bg-green-300 font-bold font-medium p-4 rounded-lg">
                 {`${inputFormatted} = ${outputFormatted}`}{" "}
               </div>
-              <Button className={"ml-2"}>
-                <ArrowsRightLeftIcon
-                  className="h-[25px] w-[25px]"
-                  onClick={handleSwap}
-                />
+              <Button className={"ml-2"} onClick={handleSwap}>
+                <ArrowsRightLeftIcon className="h-[25px] w-[25px]" />
               </Button>
             </div>
           </div>
