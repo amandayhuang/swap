@@ -64,7 +64,8 @@ export const Form = ({ rates }: Props) => {
   const [isSwapped, setIsSwapped] = useState(false);
   const [currency, setCurrency] = useState("");
   const [input, setInput] = useState("");
-  const rate = rates.find((val) => val.currency === currency);
+  const [savedRates, setSavedRates] = useState<ExchangeRate[]>(rates);
+  const rate = savedRates.find((val) => val.currency === currency);
   const outputFormatted = !isSwapped
     ? formatCurrency({
         maxDigits: 2,
@@ -155,7 +156,21 @@ export const Form = ({ rates }: Props) => {
     }
   }, []);
 
-  if (!currency) {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (rates.length > 0) {
+        localStorage.setItem("rates", JSON.stringify(rates));
+      } else {
+        const savedRates = localStorage.getItem("rates");
+        const savedRatesParsed = savedRates ? JSON.parse(savedRates) : null;
+        if (rates.length === 0 && savedRatesParsed.length > 0) {
+          setSavedRates(savedRatesParsed);
+        }
+      }
+    }
+  }, [rates]);
+
+  if (!currency || !rate) {
     return <></>;
   }
 
@@ -221,7 +236,7 @@ export const Form = ({ rates }: Props) => {
               defaultValue={currency}
               disabled={false}
               onSetCurrency={handleSetCurrency}
-              rates={rates}
+              rates={savedRates}
             />
             <div className="flex flex-row items-center justify-center">
               <div className=" bg-green-300 font-bold font-medium p-4 rounded-lg">
