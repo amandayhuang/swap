@@ -14,7 +14,7 @@ export const Select = ({
   onSetCurrency: (val: string) => void;
 }) => {
   return (
-    <div className="rounded-md bg-gray-50 p-4 md:p-6">
+    <div className="rounded-md p-4 md:p-6">
       <div className="mb-4">
         <div className="relative" style={{ width: 260 }}>
           <select
