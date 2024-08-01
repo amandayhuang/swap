@@ -5,12 +5,12 @@ import { emergency } from "@/app/lib/emergency";
 export const EmergencyNumbers = ({ rate }: { rate: ExchangeRate }) => {
   const numbers = emergency[rate.currency];
   return (
-    <div className="max-w-md mx-auto bg-red-50 rounded-xl shadow-md overflow-hidden md:max-w-2xl m-2">
-      <div className="p-8">
+    <div className="bg-red-50 rounded-xl shadow-md overflow-hidden m-2">
+      <div className="p-6">
         <h2 className="block mt-1 text-md leading-tight font-medium text-red-900 mb-4">
           {`Emergency number for ${rate.area_name}`}
         </h2>
-        <table className="min-w-full">
+        <table>
           <tbody className="bg-white divide-y divide-red-200">
             {numbers.map((item, index) => (
               <tr key={index}>
