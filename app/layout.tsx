@@ -16,6 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          defer
+          src="https://app.tinyanalytics.io/pixel/yuitnjzOmSZeJQ7u"
+        ></script>
+      </head>
       <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
