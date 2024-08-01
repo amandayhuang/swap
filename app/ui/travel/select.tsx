@@ -28,11 +28,13 @@ export const Select = ({
             <option value="" disabled>
               Select a currency
             </option>
-            {rates.map((rate) => (
-              <option key={rate.id} value={rate.currency}>
-                {`${rate.name} (${rate.currency})`}
-              </option>
-            ))}
+            {rates
+              .filter((r) => r.currency !== "USD")
+              .map((rate) => (
+                <option key={rate.id} value={rate.currency}>
+                  {`${rate.name} (${rate.currency})`}
+                </option>
+              ))}
           </select>
         </div>
       </div>
