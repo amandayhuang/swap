@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const nextConfig = {};
+import withPWA from "next-pwa";
+const nextConfig = withPWA({});
 
 export default nextConfig;
