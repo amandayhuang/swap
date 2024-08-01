@@ -96,3 +96,9 @@ export type ExchangeRate = {
   name: string;
   area_name: string;
 };
+
+export type Phrase = {
+  english: string;
+  local: string;
+  englishPronunciation: string;
+};
