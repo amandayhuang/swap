@@ -7,6 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Phrase } from "@/app/lib/definitions";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Phrases } from "./phrases";
 
 type Props = {
   open: boolean;
@@ -48,7 +49,7 @@ export default function ScrollDialog({ open, setOpen, phrases }: Props) {
           </div>
         </DialogTitle>
         <DialogContent dividers>
-          <DialogContentText
+          {/* <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}
@@ -61,7 +62,8 @@ Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
 Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               )
               .join("\n")}
-          </DialogContentText>
+          </DialogContentText> */}
+          <Phrases phrases={phrases} />
         </DialogContent>
         {/* <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
