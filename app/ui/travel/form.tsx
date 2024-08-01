@@ -195,6 +195,7 @@ export const Form = ({ rates }: Props) => {
                   style={{ width: "260px" }}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
+                  inputMode="numeric"
                 />
                 {input && (
                   <button
