@@ -67,6 +67,7 @@ export const Form = ({ rates }: Props) => {
   const [input, setInput] = useState("");
   const [savedRates, setSavedRates] = useState<ExchangeRate[]>(rates);
   const rate = savedRates.find((val) => val.currency === currency);
+  const [time, setTime] = useState(getNYCTime());
   const outputFormatted = !isSwapped
     ? formatCurrency({
         maxDigits: 2,
@@ -171,6 +172,14 @@ export const Form = ({ rates }: Props) => {
     }
   }, [rates]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(getNYCTime());
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   if (!currency || !rate) {
     return <></>;
   }
@@ -194,7 +203,7 @@ export const Form = ({ rates }: Props) => {
         )}
       </div>
       <div className="mt-4 flex grow flex-col gap-4 items-center">
-        <div className="text-sm text-gray-500">{`In NYC it's ${getNYCTime()}`}</div>
+        <div className="text-sm text-gray-500">{`In NYC it's ${time}`}</div>
         <div className="text-sm text-gray-500">{`${inputExampleFormatted} = ${outputExampleFormatted} as of ${rate?.dt_created.toDateString()}`}</div>
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-white px-6 py-10 md:w-2/5 md:px-10">
           <div className="flex flex-col items-center">
