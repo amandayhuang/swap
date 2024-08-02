@@ -12,6 +12,7 @@ import { EmergencyNumbers } from "./emergency-numbers";
 import { Button } from "../button";
 import { phrases } from "@/app/lib/phrases";
 import Modal from "./modal";
+import { getNYCTime } from "../../lib/utils";
 
 type Props = {
   rates: ExchangeRate[];
@@ -193,6 +194,7 @@ export const Form = ({ rates }: Props) => {
         )}
       </div>
       <div className="mt-4 flex grow flex-col gap-4 items-center">
+        <div className="text-sm text-gray-500">{`In NYC it's ${getNYCTime()}`}</div>
         <div className="text-sm text-gray-500">{`${inputExampleFormatted} = ${outputExampleFormatted} as of ${rate?.dt_created.toDateString()}`}</div>
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-white px-6 py-10 md:w-2/5 md:px-10">
           <div className="flex flex-col items-center">
