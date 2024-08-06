@@ -175,7 +175,12 @@ export const Form = ({ rates }: Props) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(getNYCTime());
-    }, 30000);
+      // if (navigator.onLine) {
+      //   console.log("online");
+      // } else {
+      //   console.log("offline");
+      // }
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
