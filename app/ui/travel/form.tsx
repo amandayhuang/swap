@@ -194,19 +194,19 @@ export const Form = ({ rates }: Props) => {
       <div className="flex flex-row justify-between h-20 shrink-0 rounded-lg bg-blue-500 p-4 ">
         <AcmeLogo text={`hi`} />
         {phrases[currency] && (
-          <button
-            onClick={() => setModalOpen(true)}
-            className="flex h-10 items-center rounded-lg bg-green-300 px-4 text-sm font-medium text-black aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
-          >
-            view phrases
-          </button>
-        )}
-        {phrases[currency] && (
-          <Modal
-            open={modalOpen}
-            setOpen={setModalOpen}
-            phrases={phrases[currency]}
-          />
+          <>
+            <button
+              onClick={() => setModalOpen(true)}
+              className="flex h-10 items-center rounded-lg bg-green-300 px-4 text-sm font-medium text-black aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+            >
+              view phrases
+            </button>
+            <Modal
+              open={modalOpen}
+              setOpen={setModalOpen}
+              phrases={phrases[currency]}
+            />
+          </>
         )}
       </div>
       <div className="mt-4 flex grow flex-col gap-4 items-center">
