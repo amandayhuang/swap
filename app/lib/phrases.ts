@@ -51,58 +51,6 @@ export const phrases: Record<string, any[]> = {
       englishPronunciation: "oo son lay twa-let",
     },
   ],
-  USD: [
-    {
-      english: "Hello",
-      local: "Hello",
-      englishPronunciation: "hello",
-    },
-    {
-      english: "Thank you",
-      local: "Thank you",
-      englishPronunciation: "thank you",
-    },
-    {
-      english: "Please",
-      local: "Please",
-      englishPronunciation: "please",
-    },
-    {
-      english: "Excuse me",
-      local: "Excuse me",
-      englishPronunciation: "excuse me",
-    },
-    {
-      english: "Yes",
-      local: "Yes",
-      englishPronunciation: "yes",
-    },
-    {
-      english: "No",
-      local: "No",
-      englishPronunciation: "no",
-    },
-    {
-      english: "Goodbye",
-      local: "Goodbye",
-      englishPronunciation: "goodbye",
-    },
-    {
-      english: "Check please",
-      local: "Check please",
-      englishPronunciation: "check please",
-    },
-    {
-      english: "How much is this",
-      local: "How much is this",
-      englishPronunciation: "how much is this",
-    },
-    {
-      english: "Where's the bathroom",
-      local: "Where's the bathroom",
-      englishPronunciation: "where's the bathroom",
-    },
-  ],
   JPY: [
     {
       english: "Hello",
@@ -309,58 +257,6 @@ export const phrases: Record<string, any[]> = {
       english: "Where's the bathroom",
       local: "Hvor er toilettet",
       englishPronunciation: "vor er toi-let-tet",
-    },
-  ],
-  GBP: [
-    {
-      english: "Hello",
-      local: "Hello",
-      englishPronunciation: "hello",
-    },
-    {
-      english: "Thank you",
-      local: "Thank you",
-      englishPronunciation: "thank you",
-    },
-    {
-      english: "Please",
-      local: "Please",
-      englishPronunciation: "please",
-    },
-    {
-      english: "Excuse me",
-      local: "Excuse me",
-      englishPronunciation: "excuse me",
-    },
-    {
-      english: "Yes",
-      local: "Yes",
-      englishPronunciation: "yes",
-    },
-    {
-      english: "No",
-      local: "No",
-      englishPronunciation: "no",
-    },
-    {
-      english: "Goodbye",
-      local: "Goodbye",
-      englishPronunciation: "goodbye",
-    },
-    {
-      english: "Check please",
-      local: "Bill please",
-      englishPronunciation: "bill please",
-    },
-    {
-      english: "How much is this",
-      local: "How much is this",
-      englishPronunciation: "how much is this",
-    },
-    {
-      english: "Where's the bathroom",
-      local: "Where's the loo",
-      englishPronunciation: "where's the loo",
     },
   ],
   HUF: [
@@ -884,58 +780,6 @@ export const phrases: Record<string, any[]> = {
       englishPronunciation: "tu-va-let ne-re-de",
     },
   ],
-  AUD: [
-    {
-      english: "Hello",
-      local: "G'day",
-      englishPronunciation: "guh-day",
-    },
-    {
-      english: "Thank you",
-      local: "Thanks",
-      englishPronunciation: "thanks",
-    },
-    {
-      english: "Please",
-      local: "Please",
-      englishPronunciation: "please",
-    },
-    {
-      english: "Excuse me",
-      local: "Excuse me",
-      englishPronunciation: "excuse me",
-    },
-    {
-      english: "Yes",
-      local: "Yeah",
-      englishPronunciation: "yeah",
-    },
-    {
-      english: "No",
-      local: "Nah",
-      englishPronunciation: "nah",
-    },
-    {
-      english: "Goodbye",
-      local: "See ya",
-      englishPronunciation: "see ya",
-    },
-    {
-      english: "Check please",
-      local: "Bill please",
-      englishPronunciation: "bill please",
-    },
-    {
-      english: "How much is this",
-      local: "How much is this",
-      englishPronunciation: "how much is this",
-    },
-    {
-      english: "Where's the bathroom",
-      local: "Where's the dunny",
-      englishPronunciation: "where's the dunny",
-    },
-  ],
   BRL: [
     {
       english: "Hello",
@@ -1456,58 +1300,6 @@ export const phrases: Record<string, any[]> = {
       englishPronunciation: "di ma-na tan-das",
     },
   ],
-  NZD: [
-    {
-      english: "Hello",
-      local: "Kia ora",
-      englishPronunciation: "kee-o-ra",
-    },
-    {
-      english: "Thank you",
-      local: "Thank you",
-      englishPronunciation: "thank you",
-    },
-    {
-      english: "Please",
-      local: "Please",
-      englishPronunciation: "please",
-    },
-    {
-      english: "Excuse me",
-      local: "Excuse me",
-      englishPronunciation: "excuse me",
-    },
-    {
-      english: "Yes",
-      local: "Yes",
-      englishPronunciation: "yes",
-    },
-    {
-      english: "No",
-      local: "No",
-      englishPronunciation: "no",
-    },
-    {
-      english: "Goodbye",
-      local: "Goodbye",
-      englishPronunciation: "goodbye",
-    },
-    {
-      english: "Check please",
-      local: "Bill please",
-      englishPronunciation: "bill please",
-    },
-    {
-      english: "How much is this",
-      local: "How much is this",
-      englishPronunciation: "how much is this",
-    },
-    {
-      english: "Where's the bathroom",
-      local: "Where's the loo",
-      englishPronunciation: "where's the loo",
-    },
-  ],
   PHP: [
     {
       english: "Hello",
@@ -1558,58 +1350,6 @@ export const phrases: Record<string, any[]> = {
       english: "Where's the bathroom",
       local: "Nasaan ang banyo",
       englishPronunciation: "na-sa-an ang ban-yo",
-    },
-  ],
-  SGD: [
-    {
-      english: "Hello",
-      local: "Hello",
-      englishPronunciation: "hello",
-    },
-    {
-      english: "Thank you",
-      local: "Thank you",
-      englishPronunciation: "thank you",
-    },
-    {
-      english: "Please",
-      local: "Please",
-      englishPronunciation: "please",
-    },
-    {
-      english: "Excuse me",
-      local: "Excuse me",
-      englishPronunciation: "excuse me",
-    },
-    {
-      english: "Yes",
-      local: "Ya",
-      englishPronunciation: "ya",
-    },
-    {
-      english: "No",
-      local: "No",
-      englishPronunciation: "no",
-    },
-    {
-      english: "Goodbye",
-      local: "Bye",
-      englishPronunciation: "bye",
-    },
-    {
-      english: "Check please",
-      local: "Bill please",
-      englishPronunciation: "bill please",
-    },
-    {
-      english: "How much is this",
-      local: "How much is this",
-      englishPronunciation: "how much is this",
-    },
-    {
-      english: "Where's the bathroom",
-      local: "Where's the toilet",
-      englishPronunciation: "where's the toilet",
     },
   ],
   THB: [
