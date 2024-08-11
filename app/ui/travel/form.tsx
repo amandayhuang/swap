@@ -60,6 +60,7 @@ const formatCurrency = ({
 };
 
 export const Form = ({ rates }: Props) => {
+  console.log("rates", rates);
   const DEFAULT_CURRENCY = "JPY";
   const [modalOpen, setModalOpen] = useState(false);
   const [isSwapped, setIsSwapped] = useState(false);
