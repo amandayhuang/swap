@@ -237,6 +237,7 @@ export async function fetchExchangeRates() {
     `;
 
     const rates = data.rows;
+    console.log("db rates", rates);
     return rates.sort((a, b) => (a.name < b.name ? -1 : 1));
   } catch (err) {
     console.error("Database Error:", err);
