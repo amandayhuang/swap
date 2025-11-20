@@ -217,27 +217,21 @@ export async function fetchFilteredCustomers(query: string) {
   }
 }
 
+// app/lib/data.ts
+import { unstable_noStore as noStore } from "next/cache";
+
 export async function fetchExchangeRates() {
+  noStore(); // tell Next.js: do not cache anything in this call chain
   try {
     const data = await sql<ExchangeRate>`
-      SELECT DISTINCT ON (er.currency) 
-    er.id,
-    er.currency,
-    er.base_currency,
-    er.rate,
-    er.dt_created,
-    c.name,
-    c.area_name
-  FROM 
-    exchange_rate er
-  JOIN
-    currency c ON c.code = er.currency
-  ORDER BY 
-    er.currency, er.dt_created DESC;
+      SELECT DISTINCT ON (er.currency)
+        er.id, er.currency, er.base_currency, er.rate, er.dt_created,
+        c.name, c.area_name
+      FROM exchange_rate er
+      JOIN currency c ON c.code = er.currency
+      ORDER BY er.currency, er.dt_created DESC;
     `;
-
     const rates = data.rows;
-    console.log("db rates", rates);
     return rates.sort((a, b) => (a.name < b.name ? -1 : 1));
   } catch (err) {
     console.error("Database Error:", err);
