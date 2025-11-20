@@ -14,7 +14,7 @@ export const Phrases = ({ phrases }: { phrases: Phrase[] }) => {
             </td>
             <td className="px-6 py-4 ">
               <div className="text-sm ">{item.local}</div>
-              <div className="text-sm ">{item.englishPronunciation}</div>
+              <div className="text-sm italic">{item.englishPronunciation}</div>
             </td>
           </tr>
         ))}
