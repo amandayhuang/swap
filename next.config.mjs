@@ -8,6 +8,11 @@ const withPWA = nextPWA({
   disable: process.env.NODE_ENV === "development",
   register: true,
   skipWaiting: true,
+  cacheStartUrl: true,
+  dynamicStartUrl: false,
+  fallbacks: {
+    document: "/~offline",
+  },
 });
 
 export default withPWA(nextConfig);

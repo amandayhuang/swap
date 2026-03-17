@@ -18,6 +18,8 @@ type Props = {
   rates: ExchangeRate[];
   statusMessage?: string;
   isOnline?: boolean;
+  hasOfflineData?: boolean;
+  lastUpdatedAt?: string;
 };
 
 type Format = {
@@ -74,6 +76,8 @@ export const Form = ({
   rates,
   statusMessage = "",
   isOnline = true,
+  hasOfflineData = false,
+  lastUpdatedAt = "",
 }: Props) => {
   const DEFAULT_CURRENCY = "JPY";
   const LAST_CURRENCY_KEY = "last_currency";
@@ -163,6 +167,13 @@ export const Form = ({
     handleClear();
   };
 
+  const formattedLastUpdatedAt = lastUpdatedAt
+    ? new Date(lastUpdatedAt).toLocaleString("en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      })
+    : "";
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(LAST_CURRENCY_KEY);
@@ -243,6 +254,20 @@ export const Form = ({
           </div>
         </div>
         <div className="mt-4 flex grow flex-col items-center justify-center gap-3 rounded-lg bg-white px-6 py-10 md:mx-auto md:w-2/5 md:px-10">
+          <div
+            className={`rounded-full px-3 py-1 text-sm font-medium ${
+              hasOfflineData
+                ? "bg-emerald-100 text-emerald-900"
+                : "bg-slate-200 text-slate-700"
+            }`}
+          >
+            {hasOfflineData ? "Saved for offline use" : "Not saved offline yet"}
+          </div>
+          {formattedLastUpdatedAt && (
+            <div className="text-sm text-gray-500">
+              {`Last saved ${formattedLastUpdatedAt}`}
+            </div>
+          )}
           <div className="text-base font-medium text-gray-800">
             {statusMessage || "Preparing saved travel data..."}
           </div>
@@ -287,6 +312,20 @@ export const Form = ({
       </div>
       <div className="mt-4 flex grow flex-col gap-4 items-center">
         <div className="text-sm text-gray-500">{`In NYC it's ${time}`}</div>
+        <div
+          className={`rounded-full px-3 py-1 text-sm font-medium ${
+            hasOfflineData
+              ? "bg-emerald-100 text-emerald-900"
+              : "bg-slate-200 text-slate-700"
+          }`}
+        >
+          {hasOfflineData ? "Saved for offline use" : "Not saved offline yet"}
+        </div>
+        {formattedLastUpdatedAt && (
+          <div className="text-sm text-gray-500">
+            {`Last saved ${formattedLastUpdatedAt}`}
+          </div>
+        )}
         <div className="text-sm text-gray-500">{`${inputExampleFormatted} = ${outputExampleFormatted} as of ${formatRateDate(rate?.dt_created)}`}</div>
         {statusMessage && (
           <div className="text-sm text-amber-300">{statusMessage}</div>
