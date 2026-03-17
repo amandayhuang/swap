@@ -5,7 +5,6 @@ import { ExchangeRate } from "@/app/lib/definitions";
 import { Form } from "@/app/ui/travel/form";
 
 const SAVED_RATES_KEY = "rates";
-const SAVED_RATES_UPDATED_AT_KEY = "rates_updated_at";
 
 type LoadState = "loading" | "ready" | "offline" | "error";
 
@@ -27,15 +26,10 @@ export default function TravelPageShell() {
   const [rates, setRates] = useState<ExchangeRate[]>([]);
   const [state, setState] = useState<LoadState>("loading");
   const [isOnline, setIsOnline] = useState(true);
-  const [hasOfflineData, setHasOfflineData] = useState(false);
-  const [lastUpdatedAt, setLastUpdatedAt] = useState("");
 
   useEffect(() => {
     setIsOnline(navigator.onLine);
     const savedRates = readSavedRates();
-    const savedUpdatedAt = localStorage.getItem(SAVED_RATES_UPDATED_AT_KEY) || "";
-    setLastUpdatedAt(savedUpdatedAt);
-    setHasOfflineData(savedRates.length > 0);
     if (savedRates.length > 0) {
       setRates(savedRates);
       setState(navigator.onLine ? "ready" : "offline");
@@ -56,10 +50,6 @@ export default function TravelPageShell() {
         const freshRates = (await response.json()) as ExchangeRate[];
         setRates(freshRates);
         localStorage.setItem(SAVED_RATES_KEY, JSON.stringify(freshRates));
-        const updatedAt = new Date().toISOString();
-        localStorage.setItem(SAVED_RATES_UPDATED_AT_KEY, updatedAt);
-        setLastUpdatedAt(updatedAt);
-        setHasOfflineData(true);
         setState("ready");
       } catch (error) {
         console.error("Failed to refresh rates:", error);
@@ -94,7 +84,7 @@ export default function TravelPageShell() {
     state === "loading"
       ? "Loading rates..."
       : state === "offline"
-        ? "Offline mode: showing saved rates from your last visit."
+        ? ""
         : state === "error"
           ? "No connection and no saved rates are available yet."
           : "";
@@ -104,8 +94,6 @@ export default function TravelPageShell() {
       rates={rates}
       statusMessage={statusMessage}
       isOnline={isOnline}
-      hasOfflineData={hasOfflineData}
-      lastUpdatedAt={lastUpdatedAt}
     />
   );
 }
