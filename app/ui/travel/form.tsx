@@ -76,6 +76,7 @@ export const Form = ({
   isOnline = true,
 }: Props) => {
   const DEFAULT_CURRENCY = "JPY";
+  const LAST_CURRENCY_KEY = "last_currency";
   const [modalOpen, setModalOpen] = useState(false);
   const [isSwapped, setIsSwapped] = useState(false);
   const [currency, setCurrency] = useState("");
@@ -149,7 +150,7 @@ export const Form = ({
     setCurrency(curr);
 
     if (typeof window !== "undefined") {
-      localStorage.setItem("last_currency", curr);
+      localStorage.setItem(LAST_CURRENCY_KEY, curr);
     }
   };
 
@@ -164,7 +165,7 @@ export const Form = ({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("last_currency");
+      const saved = localStorage.getItem(LAST_CURRENCY_KEY);
       if (saved) {
         setCurrency(saved);
       } else {
@@ -190,6 +191,28 @@ export const Form = ({
       setSavedRates(savedRatesParsed);
     }
   }, [rates]);
+
+  useEffect(() => {
+    if (savedRates.length === 0 || typeof window === "undefined") {
+      return;
+    }
+
+    const savedCurrency = localStorage.getItem(LAST_CURRENCY_KEY);
+    const preferredCurrency = savedCurrency || currency || DEFAULT_CURRENCY;
+    const hasPreferredCurrency = savedRates.some(
+      (savedRate) => savedRate.currency === preferredCurrency
+    );
+
+    if (hasPreferredCurrency && currency !== preferredCurrency) {
+      setCurrency(preferredCurrency);
+      return;
+    }
+
+    if (!hasPreferredCurrency && currency !== DEFAULT_CURRENCY) {
+      setCurrency(DEFAULT_CURRENCY);
+      localStorage.setItem(LAST_CURRENCY_KEY, DEFAULT_CURRENCY);
+    }
+  }, [currency, savedRates]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -307,7 +330,7 @@ export const Form = ({
               </div>
             </div>
             <Select
-              defaultValue={currency}
+              value={currency}
               disabled={false}
               onSetCurrency={handleSetCurrency}
               rates={savedRates}

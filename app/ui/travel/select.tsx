@@ -3,12 +3,12 @@
 import { ExchangeRate } from "@/app/lib/definitions";
 
 export const Select = ({
-  defaultValue,
+  value,
   disabled,
   rates,
   onSetCurrency,
 }: {
-  defaultValue: string;
+  value: string;
   disabled: boolean;
   rates: ExchangeRate[];
   onSetCurrency: (val: string) => void;
@@ -21,7 +21,7 @@ export const Select = ({
             id="customer"
             name="customerId"
             className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-base outline-2 placeholder:text-gray-500"
-            defaultValue={defaultValue}
+            value={value}
             disabled={disabled}
             onChange={(e) => onSetCurrency(e.target.value)}
           >
