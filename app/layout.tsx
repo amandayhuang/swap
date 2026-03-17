@@ -6,7 +6,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  manifest: "/manifest.json",
   title: "swap travel",
+  themeColor: "#121212",
 };
 
 export default function RootLayout({

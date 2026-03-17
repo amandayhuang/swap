@@ -16,6 +16,8 @@ import { getNYCTime } from "../../lib/utils";
 
 type Props = {
   rates: ExchangeRate[];
+  statusMessage?: string;
+  isOnline?: boolean;
 };
 
 type Format = {
@@ -59,7 +61,20 @@ const formatCurrency = ({
   return "";
 };
 
-export const Form = ({ rates }: Props) => {
+const formatRateDate = (value: Date | string | undefined) => {
+  if (!value) {
+    return "";
+  }
+
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? "" : date.toDateString();
+};
+
+export const Form = ({
+  rates,
+  statusMessage = "",
+  isOnline = true,
+}: Props) => {
   const DEFAULT_CURRENCY = "JPY";
   const [modalOpen, setModalOpen] = useState(false);
   const [isSwapped, setIsSwapped] = useState(false);
@@ -159,17 +174,20 @@ export const Form = ({ rates }: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log("rates", rates);
-    if (typeof window !== "undefined") {
-      if (rates.length > 0) {
-        localStorage.setItem("rates", JSON.stringify(rates));
-      } else {
-        const savedRates = localStorage.getItem("rates");
-        const savedRatesParsed = savedRates ? JSON.parse(savedRates) : null;
-        if (rates.length === 0 && savedRatesParsed.length > 0) {
-          setSavedRates(savedRatesParsed);
-        }
-      }
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (rates.length > 0) {
+      localStorage.setItem("rates", JSON.stringify(rates));
+      setSavedRates(rates);
+      return;
+    }
+
+    const savedRates = localStorage.getItem("rates");
+    const savedRatesParsed = savedRates ? JSON.parse(savedRates) : [];
+    if (savedRatesParsed.length > 0) {
+      setSavedRates(savedRatesParsed);
     }
   }, [rates]);
 
@@ -187,32 +205,69 @@ export const Form = ({ rates }: Props) => {
   }, []);
 
   if (!currency || !rate) {
-    return <></>;
+    return (
+      <main className="flex flex-col p-6">
+        <div className="flex flex-row justify-between h-20 shrink-0 rounded-lg bg-blue-500 p-4">
+          <AcmeLogo text={`hi`} />
+          <div
+            className={`rounded-full px-3 py-2 text-sm font-medium ${
+              isOnline
+                ? "bg-emerald-100 text-emerald-900"
+                : "bg-amber-100 text-amber-900"
+            }`}
+          >
+            {isOnline ? "Online" : "Offline"}
+          </div>
+        </div>
+        <div className="mt-4 flex grow flex-col items-center justify-center gap-3 rounded-lg bg-white px-6 py-10 md:mx-auto md:w-2/5 md:px-10">
+          <div className="text-base font-medium text-gray-800">
+            {statusMessage || "Preparing saved travel data..."}
+          </div>
+          <div className="text-sm text-gray-500 text-center">
+            Open the app once online to save exchange rates for offline use.
+          </div>
+        </div>
+      </main>
+    );
   }
 
   return (
     <main className="flex flex-col p-6">
       <div className="flex flex-row justify-between h-20 shrink-0 rounded-lg bg-blue-500 p-4 ">
         <AcmeLogo text={`hi`} />
-        {phrases[currency] && (
-          <>
-            <button
-              onClick={() => setModalOpen(true)}
-              className="flex h-10 items-center rounded-lg bg-green-300 px-4 text-sm font-medium text-black aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
-            >
-              view phrases
-            </button>
-            <Modal
-              open={modalOpen}
-              setOpen={setModalOpen}
-              phrases={phrases[currency]}
-            />
-          </>
-        )}
+        <div className="flex items-center gap-3">
+          <div
+            className={`rounded-full px-3 py-2 text-sm font-medium ${
+              isOnline
+                ? "bg-emerald-100 text-emerald-900"
+                : "bg-amber-100 text-amber-900"
+            }`}
+          >
+            {isOnline ? "Online" : "Offline"}
+          </div>
+          {phrases[currency] && (
+            <>
+              <button
+                onClick={() => setModalOpen(true)}
+                className="flex h-10 items-center rounded-lg bg-green-300 px-4 text-sm font-medium text-black aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+              >
+                view phrases
+              </button>
+              <Modal
+                open={modalOpen}
+                setOpen={setModalOpen}
+                phrases={phrases[currency]}
+              />
+            </>
+          )}
+        </div>
       </div>
       <div className="mt-4 flex grow flex-col gap-4 items-center">
         <div className="text-sm text-gray-500">{`In NYC it's ${time}`}</div>
-        <div className="text-sm text-gray-500">{`${inputExampleFormatted} = ${outputExampleFormatted} as of ${rate?.dt_created.toDateString()}`}</div>
+        <div className="text-sm text-gray-500">{`${inputExampleFormatted} = ${outputExampleFormatted} as of ${formatRateDate(rate?.dt_created)}`}</div>
+        {statusMessage && (
+          <div className="text-sm text-amber-300">{statusMessage}</div>
+        )}
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-white px-6 py-10 md:w-2/5 md:px-10">
           <div className="flex flex-col items-center">
             <div className="relative mt-2 rounded-md">
